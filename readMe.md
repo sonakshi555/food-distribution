@@ -5,8 +5,10 @@ npm init -y
 
 STEP 1: 
 run the below command in server directory
+
 node server.js 
 
 STEP 2:
 run the below command in client directory
+
 npm start
