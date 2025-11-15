@@ -4,8 +4,16 @@ import { useNavigate, Link } from 'react-router-dom';
 import { register } from '../../api/authApi';
 
 const Register = () => {
+    // ⬇️ MODIFICATION 1: Added phone_number to initial state ⬇️
     const [formData, setFormData] = useState({
-        name: '', email: '', password: '', role: 'restaurant', lat: '34.0522', lng: '-118.2437' // Default LA for testing location
+        name: '', 
+        email: '', 
+        password: '', 
+        phone_number: '', // <-- NEW FIELD: phone_number
+        role: 'restaurant', 
+        lat: '34.0522', 
+        lng: '-118.2437', 
+        address_text: ''
     });
     const [error, setError] = useState('');
     const navigate = useNavigate();
@@ -19,7 +27,9 @@ const Register = () => {
         setError('');
 
         try {
-            await register(formData);
+            // The register function sends the complete formData object, 
+            // including the new phone_number field.
+            await register(formData); 
             alert('Registration successful! Please log in.');
             navigate('/login'); 
             
@@ -34,16 +44,39 @@ const Register = () => {
             <form onSubmit={handleSubmit} style={styles.form}>
                 {error && <p style={styles.error}>{error}</p>}
                 
-                <input type="text" name="name" placeholder="Name (Restaurant/Charity)" value={formData.name} onChange={handleChange} required style={styles.input} />
+                <input type="text" name="name" placeholder="Name (Restaurant/Charity/Admin)" value={formData.name} onChange={handleChange} required style={styles.input} />
                 <input type="email" name="email" placeholder="Email" value={formData.email} onChange={handleChange} required style={styles.input} />
                 <input type="password" name="password" placeholder="Password" value={formData.password} onChange={handleChange} required style={styles.input} />
+                
+                {/* ⬇️ MODIFICATION 2: Added Input Field for Phone Number ⬇️ */}
+                <input 
+                    type="tel" 
+                    name="phone_number" 
+                    placeholder="Phone Number (Required)" 
+                    value={formData.phone_number} 
+                    onChange={handleChange} 
+                    required 
+                    style={styles.input} 
+                />
                 
                 <label style={styles.label}>Registering as:</label>
                 <select name="role" value={formData.role} onChange={handleChange} style={styles.select}>
                     <option value="restaurant">Restaurant Owner (Can add food)</option>
                     <option value="charity">Charity (Can request food)</option>
+                    <option value="admin">Administrator (Can monitor)</option>
                 </select>
 
+                <p style={styles.locationInfo}>Pickup/Primary Address:</p>
+                <input 
+                    type="text" 
+                    name="address_text" 
+                    placeholder="Full Pickup Address (e.g., 123 Main St)" 
+                    value={formData.address_text} 
+                    onChange={handleChange} 
+                    required 
+                    style={styles.input} 
+                />
+                
                 <p style={styles.locationInfo}>Location (Lat/Lng - Google Maps basic location for simplicity):</p>
                 <input type="text" name="lat" placeholder="Latitude (e.g., 34.0522)" value={formData.lat} onChange={handleChange} required style={styles.input} />
                 <input type="text" name="lng" placeholder="Longitude (e.g., -118.2437)" value={formData.lng} onChange={handleChange} required style={styles.input} />
@@ -56,7 +89,7 @@ const Register = () => {
 };
 
 const styles = {
-    // Reusing Login styles for simplicity and consistency
+    // Styles needed for local rendering
     container: { display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '40px', fontFamily: 'Arial, sans-serif' },
     form: { display: 'flex', flexDirection: 'column', width: '350px', padding: '20px', border: '1px solid #ddd', borderRadius: '8px', boxShadow: '0 2px 4px rgba(0,0,0,0.1)' },
     input: { padding: '12px', margin: '8px 0', borderRadius: '4px', border: '1px solid #ccc' },

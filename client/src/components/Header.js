@@ -14,7 +14,7 @@ const Header = () => {
     };
 
     return (
-        <header style={styles.header}>
+       <header className="app-header">
             <Link to="/" style={styles.logo}>Food Redistribution App</Link>
             <nav style={styles.nav}>
                 <Link to="/food-list" style={styles.link}>Food List</Link>

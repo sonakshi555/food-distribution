@@ -1,13 +1,179 @@
+/* GLOBAL STYLES */
 body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+    margin: 0;
+    font-family: 'Roboto', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    /* Soft, inviting cream background */
+    background-color: #f7f7f7; 
+    color: #2c3e50; /* Dark slate text */
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+    font-family: Consolas, 'Courier New', monospace;
+}
+
+/* --- HEADER & NAVIGATION --- */
+.app-header {
+    background-color: #ff7043; /* Bright Coral/Orange */
+    color: white;
+    padding: 18px 30px;
+    /* Stronger, cleaner shadow */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.app-header a, .app-header button {
+    color: white;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 17px;
+    transition: color 0.2s;
+}
+.app-header a:hover, .app-header button:hover {
+    color: #ffc107; /* Gold hover effect */
+    opacity: 1;
+}
+
+/* --- COMPONENT-SPECIFIC STYLES (Modern Focus) --- */
+
+/* Containers & Layout */
+.app-container {
+    padding: 40px 20px;
+}
+.view-container {
+    margin-top: 40px;
+}
+.input-field {
+    padding: 14px;
+    margin: 8px 0;
+    border-radius: 10px; /* Rounded pill shape */
+    border: 1px solid #dcdcdc;
+    width: 100%;
+    box-sizing: border-box;
+    background-color: #ffffff;
+    transition: border-color 0.3s;
+}
+.input-field:focus {
+    border-color: #ff9800;
+    box-shadow: 0 0 5px rgba(255, 152, 0, 0.5);
+    outline: none;
+}
+
+.form-container {
+    display: flex;
+    flex-direction: column;
+    width: 450px;
+    padding: 40px;
+    border-radius: 15px;
+    /* High elevation */
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1); 
+    background-color: #ffffff;
+    margin: 30px auto; 
+}
+
+/* Card & Request Items (Highlighting Data) */
+.card {
+    border: none;
+    padding: 25px;
+    margin-bottom: 25px;
+    border-radius: 12px;
+    /* Soft elevation for data blocks */
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08); 
+    background-color: #ffffff;
+}
+.request-item {
+    border-top: 1px solid #e0e0e0; 
+    margin-top: 20px;
+    padding-top: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start; /* Better alignment for multi-line text */
+}
+.address-text {
+    font-weight: 600;
+    color: #27ae60; /* Clear, professional green */
+    margin-top: 5px;
+    background-color: #e9f5e9; /* Light green background for emphasis */
+    padding: 4px 8px;
+    border-radius: 4px;
+    display: inline-block;
+}
+
+/* Status Colors (Clear Messaging) */
+.status-pending {
+    color: #f39c12; /* Goldenrod/Yellow */
+    font-weight: 700;
+}
+.status-accepted {
+    color: #27ae60; /* Professional Green */
+    font-weight: 700;
+}
+.status-rejected {
+    color: #e74c3c; /* Sharp Red */
+    font-weight: 700;
+}
+.status-completed {
+    color: #34495e; /* Dark Slate/Success */
+    font-weight: 700;
+}
+
+/* Buttons (Unified Primary Action Color) */
+.button {
+    padding: 12px 25px;
+    margin-top: 20px;
+    border: none;
+    border-radius: 8px; 
+    cursor: pointer;
+    font-size: 17px;
+    font-weight: 600;
+    color: white;
+    background-color: #ff7043; /* Primary Coral */
+    transition: background-color 0.2s;
+}
+.button:hover {
+    background-color: #e65c2f;
+}
+
+/* Specific Action Buttons */
+.action-buttons {
+    display: flex;
+    gap: 10px;
+    margin-top: 0; /* Override default button margin */
+}
+.action-buttons button {
+    padding: 10px 18px;
+    font-size: 14px;
+    margin-top: 0;
+}
+.accept-button {
+    background-color: #2ecc71; /* Brighter Green */
+}
+.reject-button {
+    background-color: #e74c3c; 
+}
+.complete-button {
+    background-color: #3f51b5; /* Indigo for final completion */
+}
+
+/* Feedback & Maps */
+.feedback-form {
+    border-top: 1px dashed #cccccc; 
+    padding-top: 25px;
+    margin-top: 25px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+.submit-button {
+    background-color: #ff9800; /* Amber secondary action */
+}
+.map-container {
+    margin-top: 20px;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 5px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    background-color: #fafafa;
 }

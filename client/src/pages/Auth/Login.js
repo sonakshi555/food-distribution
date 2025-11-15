@@ -2,11 +2,13 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { login } from '../../api/authApi';
+import '../../index.css'; // Assuming styles are now primarily here
 
 const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
+    const [loginType, setLoginType] = useState('user'); // 'user' (default) or 'admin'
     const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
@@ -15,6 +17,17 @@ const Login = () => {
 
         try {
             const data = await login(email, password);
+            
+            // Critical Role Check based on the chosen path
+            if (loginType === 'user' && data.role === 'admin') {
+                setError('Admin accounts must use the Admin Login portal.');
+                return;
+            }
+            if (loginType === 'admin' && data.role !== 'admin') {
+                setError('Only Administrator accounts are permitted here.');
+                return;
+            }
+
             alert(`Login successful! Role: ${data.role}`);
             navigate('/dashboard'); 
             
@@ -23,29 +36,56 @@ const Login = () => {
         }
     };
 
+    const handleSwitchToAdmin = () => setLoginType('admin');
+    const handleSwitchToUser = () => setLoginType('user');
+
+
+    // --- Common Login Form (Used by both views) ---
+    const LoginForm = ({ roleLabel }) => (
+        <form onSubmit={handleSubmit} className="form-container" style={{ width: '300px' }}>
+            <h3 style={{ marginTop: 0 }}>{roleLabel} Login</h3>
+            {error && <p className="error-message">{error}</p>}
+            
+            <input type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} required className="input-field" />
+            <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} required className="input-field" />
+            
+            <button type="submit" className="button login-button" style={{ marginTop: '15px' }}>Log In</button>
+        </form>
+    );
+
+    // --- Main Render Block ---
     return (
-        <div style={styles.container}>
-            <h2>Login</h2>
-            <form onSubmit={handleSubmit} style={styles.form}>
-                {error && <p style={styles.error}>{error}</p>}
-                
-                <input type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} required style={styles.input} />
-                <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} required style={styles.input} />
-                
-                <button type="submit" style={styles.button}>Login</button>
-            </form>
-            <p style={styles.linkText}>Don't have an account? <Link to="/register">Register here</Link></p>
+        <div className="app-container" style={styles.container}>
+            <h2>Welcome Back</h2>
+            
+            {loginType === 'user' ? (
+                // --- USER (Restaurant/Charity) CARD ---
+                <div className="card" style={styles.card}>
+                    <LoginForm roleLabel="Restaurant / Charity" />
+                    <button onClick={handleSwitchToAdmin} className="button" style={styles.switchButton}>
+                        Switch to Admin Login
+                    </button>
+                    <p style={styles.linkText}>Don't have an account? <Link to="/register">Register here</Link></p>
+                </div>
+            ) : (
+                // --- ADMIN CARD ---
+                <div className="card" style={styles.card}>
+                    <LoginForm roleLabel="System Administrator" />
+                    <button onClick={handleSwitchToUser} className="button" style={styles.switchButton}>
+                        Switch to User Login
+                    </button>
+                    <p style={styles.linkText}>Only existing Admin accounts can log in here.</p>
+                </div>
+            )}
         </div>
     );
 };
 
-// Simple styles (move to App.css or separate file later)
+// Local styles for structure (not presentation)
 const styles = {
     container: { display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '40px', fontFamily: 'Arial, sans-serif' },
-    form: { display: 'flex', flexDirection: 'column', width: '300px', padding: '20px', border: '1px solid #ddd', borderRadius: '8px', boxShadow: '0 2px 4px rgba(0,0,0,0.1)' },
-    input: { padding: '12px', margin: '8px 0', borderRadius: '4px', border: '1px solid #ccc' },
-    button: { padding: '12px', marginTop: '15px', backgroundColor: '#3f51b5', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer', fontSize: '16px' },
-    error: { color: '#f44336', marginBottom: '10px', fontWeight: 'bold' },
+    card: { padding: '20px', width: '400px', display: 'flex', flexDirection: 'column', alignItems: 'center' },
+    switchButton: { marginTop: '10px', backgroundColor: '#e0e0e0', color: '#333', padding: '10px', fontSize: '14px' },
     linkText: { marginTop: '20px' }
 };
 
