@@ -6,7 +6,6 @@ import { completePickup, submitFeedback } from '../api/foodApi';
 // Import Google Maps components
 import { useLoadScript, GoogleMap, Marker } from '@react-google-maps/api'; 
 import '../index.css'; // CSS import is necessary for styling
-import { Link } from 'react-router-dom'; // Import Link for navigation
 
 const API_URL = process.env.REACT_APP_API_BASE_URL;
 const MAPS_API_KEY = "YOUR_GOOGLE_MAPS_API_KEY"; // REPLACE WITH YOUR KEY
